@@ -6,6 +6,7 @@ use Evenement\EventEmitter;
 use GuzzleHttp\Psr7 as gPsr;
 use React\EventLoop\LoopInterface;
 use ExpressiveAsync\ServerRequest;
+use React\Http\MultipartParser;
 
 /**
  * @event headers
@@ -38,7 +39,7 @@ class RequestParser extends EventEmitter
                 return;
             }
 
-            $this->request = gPsr\parse_request($data);
+            $this->request = gPsr\parse_request($headers . "\r\n\r\n");
         }
 
         // if there is a request (meaning the headers are parsed) and
@@ -53,6 +54,16 @@ class RequestParser extends EventEmitter
 
             // create server request object
             $this->request = new ServerRequest($this->request);
+
+            // todo this should really belong in the header parsing.  clean this up.
+            $parsedQuery = [];
+            $queryString = $this->request->getUri()->getQuery();
+            if ($queryString) {
+                parse_str($queryString, $parsedQuery);
+                if (!empty($parsedQuery)) {
+                    $this->request = $this->request->withQueryParams($parsedQuery);
+                }
+            }
 
             // add server request information to the request object.
             $this->request = $this->parseBody($body, $this->request);
@@ -75,9 +86,9 @@ class RequestParser extends EventEmitter
         $headers = $request->getHeaders();
 
         if (array_key_exists('Content-Type', $headers)) {
-            if (strpos($headers['Content-Type'], 'multipart/') === 0) {
+            if (strpos($headers['Content-Type'][0], 'multipart/') === 0) {
                 //TODO :: parse the content while it is streaming
-                preg_match("/boundary=\"?(.*)\"?$/", $headers['Content-Type'], $matches);
+                preg_match("/boundary=\"?(.*)\"?$/", $headers['Content-Type'][0], $matches);
                 $boundary = $matches[1];
 
                 $parser = new MultipartParser($content, $boundary);
@@ -85,7 +96,7 @@ class RequestParser extends EventEmitter
 
                 $request = $request->withParsedBody($parser->getPost());
                 $request = $request->withUploadedFiles($parser->getFiles());
-            } else if (strtolower($headers['Content-Type']) == 'application/x-www-form-urlencoded') {
+            } else if (strtolower($headers['Content-Type'][0]) == 'application/x-www-form-urlencoded') {
                 parse_str(urldecode($content), $result);
                 $request = $request->withParsedBody($result);
             }

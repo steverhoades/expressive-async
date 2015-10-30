@@ -11,12 +11,11 @@ namespace ExpressiveAsync;
 use Psr\Http\Message\StreamInterface;
 
 /**
- * Provides a buffer stream that can be written to to fill a buffer, and read
- * from to remove bytes from the buffer.
+ * Class BufferedStream
  *
- * This stream returns a "hwm" metadata value that tells upstream consumers
- * what the configured high water mark of the stream is, or the maximum
- * preferred size of the buffer.
+ * Just write to buffer object and retain the data.
+ *
+ * @package ExpressiveAsync
  */
 class BufferedStream implements StreamInterface
 {

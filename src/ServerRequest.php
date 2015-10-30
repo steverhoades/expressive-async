@@ -196,10 +196,11 @@ class ServerRequest implements ServerRequestInterface, AsyncMessageInterface
      */
     public function getMethod()
     {
-        if (empty($this->method)) {
+        $method = $this->request->getMethod();
+        if (empty($method)) {
             return 'GET';
         }
-        return $this->method;
+        return $method;
     }
 
     /**

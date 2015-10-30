@@ -1,6 +1,6 @@
 Overview
 ====================
-This library was created to experiment with zend expressive using React PHP.  Mileage may vary.
+This library was created to experiment with zend expressive using React PHP and is based on React\Http.  Mileage may vary.
 
 A large portion of this code leverages existing libraries such as guzzlehttp's psr7 library, zend diactoros, zend expressive, zend stratigility and zend service manager.
 

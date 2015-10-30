@@ -24,7 +24,6 @@ class AsyncEmitter implements EmitterInterface
      */
     public function emit(ResponseInterface $response, $maxBufferLevel = null)
     {
-        echo get_class($this->conn) . PHP_EOL;
         $this->emitStatusLine($response);
         $this->emitHeaders($response);
         $this->emitBody($response, $maxBufferLevel);
@@ -49,7 +48,6 @@ class AsyncEmitter implements EmitterInterface
             ($reasonPhrase ? ' ' . $reasonPhrase : '')
         );
         $this->conn->write($header);
-        echo $header;
     }
 
     /**
@@ -73,7 +71,6 @@ class AsyncEmitter implements EmitterInterface
                     $value
                 );
                 $this->conn->write($header);
-                echo $header;
             }
         }
     }
@@ -89,7 +86,6 @@ class AsyncEmitter implements EmitterInterface
      */
     private function emitBody(ResponseInterface $response, $maxBufferLevel)
     {
-        echo $response->getBody() .": ksksk";
         $this->conn->write("\r\n");
         $this->conn->write($response->getBody());
     }
