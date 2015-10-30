@@ -1,0 +1,24 @@
+{
+    "name": "steverhoades/expressive-async",
+    "description": "expressive async",
+    "license": "MIT",
+    "require": {
+        "zendframework/zend-diactoros": "~1.1",
+        "zendframework/zend-expressive": "1.0.0-RC2",
+        "zendframework/zend-servicemanager": "^2.5",
+        "zendframework/zend-expressive-fastroute": "^0.2",
+        "react/event-loop": "0.4.*",
+        "react/http": "0.4.*"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git://github.com/steverhoades/http-expressive.git"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "ExpressiveAsync\\": "src"
+        }
+    }
+}
