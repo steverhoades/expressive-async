@@ -25,6 +25,7 @@ $router = new \Zend\Expressive\Router\FastRouteRouter();
 $router->addRoute(new \Zend\Expressive\Router\Route(
     '/',
     function($request, $response) use ($eventLoop) {
+        echo 'Home executed' . PHP_EOL;
         return new Diactoros\Response\HtmlResponse('Hello World.');
     },
     ['GET'],
@@ -48,6 +49,17 @@ $router->addRoute(new \Zend\Expressive\Router\Route(
     'deferred'
 ));
 
+$router->addRoute(new \Zend\Expressive\Router\Route(
+    '/form',
+    function($request, $response) use ($eventLoop) {
+        echo "Form post received" . PHP_EOL;
+
+        $params = $request->getParsedBody();
+        return new Diactoros\Response\HtmlResponse("Hi {$params['name']}");
+    },
+    ['POST'],
+    'form'
+));
 
 $application = new Application(
     $router,

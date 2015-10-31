@@ -68,7 +68,7 @@ class Application extends ExpressiveApplication
         $next   = new Next($this->pipeline, $done);
         $result = $next($request, $response);
 
-        return (($result instanceof Response || $result instanceof PromiseResponseInterface) ? $result : $response);
+        return (($result instanceof ResponseInterface || $result instanceof PromiseResponseInterface) ? $result : $response);
     }
 
     /**
