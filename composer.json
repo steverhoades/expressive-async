@@ -8,7 +8,7 @@
         "zendframework/zend-servicemanager": "^2.6",
         "zendframework/zend-expressive-fastroute": "^0.2",
         "react/event-loop": "0.4.*",
-        "react/http": "0.4.*",
+        "react/http": "dev-master as 0.4.1",
         "react/promise": "^2.2"
     },
     "require-dev": {
