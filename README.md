@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/steverhoades/expressive-async.svg?branch=master)](https://travis-ci.org/steverhoades/expressive-async)
+
 # Overview
 This library was created to experiment with zend expressive using React PHP and is based on React\Http.  Mileage may vary.
 
