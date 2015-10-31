@@ -13,88 +13,109 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 use React\Promise\Promise;
 
+/**
+ * Class DeferredResponse
+ *
+ * Response object that implements the ResponseInterface but is used to defer a Response.  The application listens
+ * for a PromiseResponseInterface Response in addition to the ResponseInterface and interacts with the promise object
+ * to emit a response once the promise has been resolved.
+ *
+ * @package ExpressiveAsync
+ */
 class DeferredResponse implements ResponseInterface, PromiseResponseInterface
 {
+    /**
+     * @var
+     */
     protected $promise;
 
+    /**
+     * @param Promise $promise
+     */
     public function __construct(Promise $promise)
     {
         $this->promise = $promise;
     }
 
+    /**
+     * @return Promise
+     */
     public function promise()
     {
         return $this->promise;
     }
 
+    /**
+     * ResponseInterface stubs
+     */
     public function getProtocolVersion()
     {
-        // TODO: Implement getProtocolVersion() method.
+        return '1.1';
     }
 
     public function withProtocolVersion($version)
     {
-        // TODO: Implement withProtocolVersion() method.
+        return $this;
     }
 
     public function getHeaders()
     {
-        // TODO: Implement getHeaders() method.
+        return [];
     }
 
     public function hasHeader($name)
     {
-        // TODO: Implement hasHeader() method.
+        return false;
     }
 
     public function getHeader($name)
     {
-        // TODO: Implement getHeader() method.
+        return null;
     }
 
     public function getHeaderLine($name)
     {
-        // TODO: Implement getHeaderLine() method.
+        return null;
     }
 
     public function withHeader($name, $value)
     {
-        // TODO: Implement withHeader() method.
+        return $this;
     }
 
     public function withAddedHeader($name, $value)
     {
-        // TODO: Implement withAddedHeader() method.
+        return $this;
     }
 
     public function withoutHeader($name)
     {
-        // TODO: Implement withoutHeader() method.
+        return $this;
     }
 
     public function getBody()
     {
-        // TODO: Implement getBody() method.
+        return new BufferedStream();
     }
 
     public function withBody(StreamInterface $body)
     {
-        // TODO: Implement withBody() method.
+        return $this;
     }
 
     public function getStatusCode()
     {
-        // TODO: Implement getStatusCode() method.
+        return 200;
     }
 
     public function withStatus($code, $reasonPhrase = '')
     {
-        // TODO: Implement withStatus() method.
+        return $this;
     }
 
     public function getReasonPhrase()
     {
-        // TODO: Implement getReasonPhrase() method.
+        return '';
     }
 
 }

@@ -8,12 +8,9 @@
 
 namespace ExpressiveAsync;
 
-
-use Interop\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use React\Socket\ConnectionInterface;
-use ExpressiveAsync\Application;
 
 class ExpressiveConnectionHandler
 {
