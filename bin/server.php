@@ -7,6 +7,7 @@ use ExpressiveAsync\Server;
 use React\EventLoop\Factory;
 use React\Socket\Server as SocketServer;
 use ExpressiveAsync\Application;
+use React\Promise\Deferred;
 
 $serviceManager = new \Zend\ServiceManager\ServiceManager();
 $eventLoop      = Factory::create();
@@ -20,20 +21,39 @@ $serviceManager->setInvokableClass(
 );
 
 $router = new \Zend\Expressive\Router\FastRouteRouter();
-$route = new \Zend\Expressive\Router\Route(
+
+$router->addRoute(new \Zend\Expressive\Router\Route(
     '/',
-    function($request, $response) {
+    function($request, $response) use ($eventLoop) {
         return new Diactoros\Response\HtmlResponse('Hello World.');
     },
     ['GET'],
     'home'
-);
+));
 
-$router->addRoute($route);
+
+$router->addRoute(new \Zend\Expressive\Router\Route(
+    '/deferred',
+    function($request, $response) use ($eventLoop) {
+        // create a request, wait 1-5 seconds and then return a response.
+        $deferred = new Deferred();
+        $eventLoop->addTimer(rand(1, 5), function() use ($deferred){
+            echo 'Timer executed' . PHP_EOL;
+            $deferred->resolve(new Diactoros\Response\HtmlResponse('Deferred response.'));
+        });
+
+        return new \ExpressiveAsync\DeferredResponse($deferred->promise());
+    },
+    ['GET'],
+    'deferred'
+));
+
+
 $application = new Application(
     $router,
     $serviceManager,
     function($request, $response) {
+        echo 'final handler was called.' . PHP_EOL;
         return new Diactoros\Response\HtmlResponse('Not Found.', 404);
     }
 );

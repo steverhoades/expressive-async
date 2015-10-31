@@ -8,14 +8,9 @@
         "zendframework/zend-servicemanager": "^2.5",
         "zendframework/zend-expressive-fastroute": "^0.2",
         "react/event-loop": "0.4.*",
-        "react/http": "0.4.*"
+        "react/http": "0.4.*",
+        "react/promise": "^2.2"
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "git://github.com/steverhoades/http-expressive.git"
-        }
-    ],
     "autoload": {
         "psr-4": {
             "ExpressiveAsync\\": "src"

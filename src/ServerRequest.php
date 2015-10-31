@@ -1,6 +1,7 @@
 <?php
 namespace ExpressiveAsync;
 
+use GuzzleHttp\Psr7\Request;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
@@ -57,8 +58,12 @@ class ServerRequest implements ServerRequestInterface, AsyncMessageInterface
     /**
      * @param RequestInterface $request
      */
-    public function __construct(RequestInterface $request)
+    public function __construct(RequestInterface $request = null)
     {
+        if (is_null($request)) {
+           $request = new Request();
+        }
+
         $this->request = $request;
     }
 
