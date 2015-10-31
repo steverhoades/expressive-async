@@ -14,5 +14,15 @@ matrix:
     - php: 7.0
     - php: hhvm
 
-before_script:
-  - composer install --dev
+before_install:
+  - composer self-update
+
+install:
+  - COMPOSER_ROOT_VERSION=0.4.1 travis_retry composer install --no-interaction --ignore-platform-reqs --prefer-source
+  - composer info -i
+
+script:
+  - ./vendor/bin/phpunit
+
+notifications:
+  email: true

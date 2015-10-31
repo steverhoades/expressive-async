@@ -18,5 +18,10 @@
         "psr-4": {
             "ExpressiveAsync\\": "src"
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ExpressiveAsync\\Test\\": "tests/"
+        }
     }
 }
