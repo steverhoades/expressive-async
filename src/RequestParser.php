@@ -84,9 +84,9 @@ class RequestParser extends EventEmitter
     public function parseBody($content, $request)
     {
         $headers = $request->getHeaders();
-        $contentType = $headers['Content-Type'][0];
 
         if (array_key_exists('Content-Type', $headers)) {
+            $contentType = $headers['Content-Type'][0];
             if (strpos($contentType, 'multipart/') === 0) {
                 //TODO :: parse the content while it is streaming
                 preg_match("/boundary=\"?(.*)\"?$/", $contentType, $matches);
