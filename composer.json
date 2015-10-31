@@ -1,15 +1,18 @@
 {
     "name": "steverhoades/expressive-async",
-    "description": "expressive async",
+    "description": "An asynchronous middleware server build using React PHP and Zend Expressive",
     "license": "MIT",
     "require": {
         "zendframework/zend-diactoros": "~1.1",
         "zendframework/zend-expressive": "1.0.0-RC2",
-        "zendframework/zend-servicemanager": "^2.5",
+        "zendframework/zend-servicemanager": "^2.6",
         "zendframework/zend-expressive-fastroute": "^0.2",
         "react/event-loop": "0.4.*",
         "react/http": "0.4.*",
         "react/promise": "^2.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^4.7",
     },
     "autoload": {
         "psr-4": {
