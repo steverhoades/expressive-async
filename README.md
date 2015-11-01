@@ -79,8 +79,8 @@ $application = new Application(
         return new Diactoros\Response\HtmlResponse('Not Found.', 404);
     }
 );
-
-$httpServer->on('request', new ExpressiveAsync\ExpressiveConnectionHandler($application));
+$connectionHandler = new ExpressiveAsync\ExpressiveConnectionHandler($application);
+$httpServer->on('request', $connectionHandler);
 $socketServer->listen('10091');
 $eventLoop->run();
 ```
