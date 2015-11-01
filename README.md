@@ -15,7 +15,7 @@ A large portion of this code leverages existing libraries such as guzzlehttp's p
 This library alters the functionality of Zend\Expressive\Application slightly to allow for deferred processing from middleware.  If a middleware application returns an instance of DeferredResponse the application will wait to emit until the promise has been resolved.  DeferredResponse must be created with a React\Promise\Promise object.
 
 Example:
-```
+```php
 function($request, $response) use ($eventLoop) {
     // create a request, wait 1-5 seconds and then return a response.
     $deferred = new Deferred();
@@ -30,7 +30,7 @@ function($request, $response) use ($eventLoop) {
 
 ## Example
 
-```
+```php
 $serviceManager = new \Zend\ServiceManager\ServiceManager();
 $eventLoop      = Factory::create();
 $socketServer   = new SocketServer($eventLoop);
