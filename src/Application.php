@@ -5,8 +5,6 @@ use ExpressiveAsync\Emitter\AsyncEmitter;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Zend\Expressive\Application as ExpressiveApplication;
-use Zend\Stratigility\Next;
-use Zend\Stratigility\Http;
 
 /**
  * Class Application
@@ -49,29 +47,6 @@ class Application extends ExpressiveApplication
     }
 
     /**
-     * Overload middleware invocation.
-     *
-     * If $out is not provided, uses the result of `getFinalHandler()`.
-     *
-     * @param ServerRequestInterface $request
-     * @param ResponseInterface $response
-     * @param callable|null $out
-     * @return ResponseInterface
-     */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $out = null)
-    {
-        $this->pipeRoutingMiddleware();
-        $done = $out ?: $this->getFinalHandler($response);
-        $request  = $this->decorateRequest($request);
-        $response = $this->decorateResponse($response);
-
-        $next   = new Next($this->pipeline, $done);
-        $result = $next($request, $response);
-
-        return (($result instanceof ResponseInterface || $result instanceof PromiseResponseInterface) ? $result : $response);
-    }
-
-    /**
      * Run the application
      *
      * If no request or response are provided, the method will use
@@ -105,35 +80,5 @@ class Application extends ExpressiveApplication
 
         $emitter = $this->getEmitter();
         $emitter->emit($response);
-    }
-
-    /**
-     * Decorate the Request instance
-     *
-     * @param Request $request
-     * @return Http\Request
-     */
-    private function decorateRequest(ServerRequestInterface $request)
-    {
-        if ($request instanceof Http\Request) {
-            return $request;
-        }
-
-        return new Http\Request($request);
-    }
-
-    /**
-     * Decorate the Response instance
-     *
-     * @param Response $response
-     * @return Http\Response
-     */
-    private function decorateResponse(ResponseInterface $response)
-    {
-        if ($response instanceof Http\Response) {
-            return $response;
-        }
-
-        return new Http\Response($response);
     }
 }
