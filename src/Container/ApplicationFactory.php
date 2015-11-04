@@ -14,6 +14,9 @@ use Zend\Expressive\Container;
 use Zend\Expressive\Container\ApplicationFactory as ExpressiveApplicationFactory;
 use ExpressiveAsync\Application;
 use Interop\Container\ContainerInterface;
+use Zend\Expressive\Router\FastRouteRouter;
+use Zend\Expressive\Router\RouterInterface;
+use Zend\Diactoros\Response\EmitterInterface;
 
 class ApplicationFactory extends ExpressiveApplicationFactory
 {
