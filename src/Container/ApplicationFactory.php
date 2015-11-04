@@ -17,6 +17,7 @@ use Interop\Container\ContainerInterface;
 use Zend\Expressive\Router\FastRouteRouter;
 use Zend\Expressive\Router\RouterInterface;
 use Zend\Diactoros\Response\EmitterInterface;
+use Zend\Expressive\Router\Route;
 
 class ApplicationFactory extends ExpressiveApplicationFactory
 {
