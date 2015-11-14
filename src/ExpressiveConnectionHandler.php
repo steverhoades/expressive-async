@@ -48,7 +48,7 @@ class ExpressiveConnectionHandler extends EventEmitter
         $this->emit('request', [$conn, &$request, &$response]);
 
         $application = $this->application->getApplicationForConnection($conn);
-        $application->on('end', function($request, &$response) use ($conn, $application){
+        $application->on('end', function($request, &$response) use ($conn){
             $this->emit('end', [$conn, $request, &$response]);
         });
 
