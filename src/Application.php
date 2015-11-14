@@ -1,6 +1,7 @@
 <?php
 namespace ExpressiveAsync;
 
+use Evenement\EventEmitterTrait;
 use ExpressiveAsync\Emitter\AsyncEmitter;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -16,6 +17,8 @@ use Zend\Expressive\Application as ExpressiveApplication;
  */
 class Application extends ExpressiveApplication
 {
+    use EventEmitterTrait;
+
     /**
      * @var AsyncEmitter
      */
@@ -66,19 +69,28 @@ class Application extends ExpressiveApplication
 
         $response = $this($request, $response);
 
-
         /**
          * If a deferred was returned, than wait for it to be done and then emit.
          */
         if ($response instanceof PromiseResponseInterface) {
-            $response->promise()->done(function(ResponseInterface $response) {
+            $response->promise()->done(function(ResponseInterface $response) use ($request) {
+                $this->emit('end', [$request, &$response]);
+
                 $emitter = $this->getEmitter();
                 $emitter->emit($response);
             });
+
             return;
         }
 
+        $this->emit('end', [$request, $response]);
+
         $emitter = $this->getEmitter();
         $emitter->emit($response);
+    }
+
+    public function __clone()
+    {
+        $this->listeners = [];
     }
 }

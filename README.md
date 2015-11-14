@@ -84,6 +84,32 @@ $httpServer->on('request', $connectionHandler);
 $socketServer->listen('10091');
 $eventLoop->run();
 ```
+## Connection Events
+The ExpressiveConnectionHandler emits several events during the lifecycle of a request.
+
+#### ExpressiveConnectionHandler::EVENT_REQUEST [$connection, &$request, &$response]
+Before the middleware application is executed this event will be emitted.  The request and response objects are passed in by reference allowing for modification.
+
+```php
+$connectionHandler = new ExpressiveAsync\ExpressiveConnectionHandler($application);
+$connectionHandler->on(ExpressiveConnectionHandler::EVENT_REQUEST, function ($conn, &$request, $response) {
+    $request = $request->withAttribute('request-start', microtime(true))
+});
+```
+
+#### ExpressiveConnectionHandler::EVENT_END [$connection, $request, &$response]
+Before the response is written to the connection but after the middleware has executed.  The response object is passed by reference.
+```php
+$connectionHandler->on('end', function($conn, $request, $response) use ($logger) {
+    $logger->timing('app.timing', (microtime(true) - $request->getAttribute('request-start')) * 1000);
+});
+```
+ 
+#### ExpressiveConnectionHandler::EVENT_CONNECTION_END [$connection]
+Emitted once the connection has been ended.
+
+#### ExpressiveConnectionHandler::EVENT_CONNECTION_CLOSE [$connection]
+Emitted once the connection close has been called.
 
 ## Run the Example
 An example server has been provided. To run simply execute the following in the terminal from the root directory.
